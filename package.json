@@ -1,7 +1,7 @@
 {
   "name": "stream-line-tokens2obj",
   "description": "Splits a line by a sparator into tokens.",
-  "main": "lib/line-header.js",
+  "main": "lib/tokens2obj.js",
   "scripts": {
     "cover": "node --harmony ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --R spec --U exports test",
     "doc": "jsdoc lib/*.js",
