@@ -184,6 +184,7 @@ describe("stream-line-tokens2obj: test", function () {
           "B": "Val 2"
         },
         "error": [{
+          "lineNumber": 0,
           "errorCode": 'TOKENS_2_OBJECT_STRICT_CHECK',
           "severity": 'skip_record',
           "message": `Column count missmatch: The header has 4 columns and the row has 3 columns.`
@@ -221,6 +222,7 @@ describe("stream-line-tokens2obj: test", function () {
           "C": "Val 4"
         },
         "error": [{
+          "lineNumber": 0,
           "errorCode": 'TOKENS_2_OBJECT_STRICT_CHECK',
           "severity": 'custom_severity',
           "message": `Column count missmatch: The header has 4 columns and the row has 5 columns.`
