@@ -7,7 +7,6 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-var _ = require('underscore');
 const mockReadStream = require('./mockReadStream');
 
 const tokens2objs = require('../lib/tokens2obj.js');
