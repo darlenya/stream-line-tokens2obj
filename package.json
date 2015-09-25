@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/darlenya/stream-line-tokens2obj.git"
+    "url": "git+https://github.com/Kronos-Integration/stream-line-tokens2obj.git"
   },
   "bugs": {
-    "url": "https://github.com/darlenya/stream-line-tokens2obj/issues"
+    "url": "https://github.com/Kronos-Integration/stream-line-tokens2obj/issues"
   },
-  "homepage": "https://github.com/darlenya/stream-line-tokens2obj#readme",
+  "homepage": "https://github.com/Kronos-Integration/stream-line-tokens2obj#readme",
   "engines": {
     "iojs": "2.0.0"
   },
