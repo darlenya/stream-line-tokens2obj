@@ -7,7 +7,7 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-const mockReadStream = require('./mockReadStream');
+const mockReadStream = require('kronos-test-interceptor').mockReadStreamFactory;
 
 const tokens2objs = require('../lib/tokens2obj.js');
 
