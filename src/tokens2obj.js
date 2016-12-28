@@ -132,7 +132,10 @@ function addError(data, error) {
 	data.error.push(error);
 }
 
-
-module.exports = function (opts) {
+function Tokens2ObjectFactory(opts) {
 	return new Tokens2Object(opts);
+}
+
+export {
+	Tokens2ObjectFactory
 };

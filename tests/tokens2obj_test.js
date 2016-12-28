@@ -7,12 +7,10 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-const mockReadStream = require('kronos-test-interceptor').mockReadStreamFactory;
-
-const tokens2objs = require('../lib/tokens2obj.js');
+const mockReadStream = require('kronos-test-interceptor').mockReadStreamFactory,
+  tokens2objs = require('../dist/module').Tokens2ObjectFactory;
 
 describe("stream-line-tokens2obj: test", function () {
-
 
   it('Header given by Options. First row skipped as default', function (done) {
     let opts = {
