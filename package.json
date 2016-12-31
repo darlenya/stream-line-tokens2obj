@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Kronos-Integration/kronos-interceptor-line-tokens2obj#readme",
   "dependencies": {
-    "kronos-interceptor": "^2.4.6",
+    "kronos-interceptor": "^2.4.7",
     "z-schema": "3.18.2"
   },
   "devDependencies": {
