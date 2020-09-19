@@ -1,8 +1,6 @@
 /* global describe, it, xit */
 /* jslint node: true, esnext: true */
 
-"use strict";
-
 /*
  * Just test if the message will be passed through the interceptor
  */
