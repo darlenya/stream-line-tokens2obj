@@ -1,122 +1,112 @@
-/* jslint node: true, esnext: true */
-'use strict';
-
 /**
  * This module will turn an array of tokens into an object.
  */
 
-const stream = require('stream');
+import { Transform } from "stream";
 
-class Tokens2Object extends stream.Transform {
+export class Tokens2Object extends Transform {
+  /**
+   * Creates the line tokenizer and sets the options.
+   * The following options are supported:
+   * {
+   *	"header" : ['a', 'b', 'c', undefined, 'e'],
+   *  "strict" : false,
+   *  "severity" : 'skip_record',
+   *  "skip_first_row" : true
+   * }
+   *
+   */
+  constructor(opts) {
+    // call the constructor of Transform
+    super({
+      objectMode: true,
+      highWaterMark: 16
+    });
 
-	/**
-	 * Creates the line tokenizer and sets the options.
-	 * The following options are supported:
-	 * {
-	 *	"header" : ['a', 'b', 'c', undefined, 'e'],
-	 *  "strict" : false,
-	 *  "severity" : 'skip_record',
-	 *  "skip_first_row" : true
-	 * }
-	 *
-	 */
-	constructor(opts) {
-		// call the constructor of stream.Transform
-		super({
-			objectMode: true,
-			highWaterMark: 16
-		});
+    if (!opts) opts = {};
 
-		if (!opts) opts = {};
+    // Set the header to be used to turn the tokens into objects
+    // If no header is set, it will register a listener for the header event on the stream
+    if (opts.header) {
+      this.header = opts.header;
+    }
 
+    // If strict is true the count of tokens must alwas be the count of header columens.
+    // other wise an error object will be thrown
+    if (opts.strict !== undefined) {
+      this.strict = opts.strict;
+    } else {
+      this.strict = false;
+    }
 
-		// Set the header to be used to turn the tokens into objects
-		// If no header is set, it will register a listener for the header event on the stream
-		if (opts.header) {
-			this.header = opts.header;
-		}
+    if (opts.severity) {
+      this.severity = opts.severity;
+    } else {
+      this.severity = "skip_record";
+    }
 
+    // Normally the first row is the header and would be skipped
+    if (opts.skip_first_row !== undefined) {
+      this.skipFirstRow = opts.skip_first_row;
+    } else {
+      this.skipFirstRow = true;
+    }
+  }
 
-		// If strict is true the count of tokens must alwas be the count of header columens.
-		// other wise an error object will be thrown
-		if (opts.strict !== undefined) {
-			this.strict = opts.strict;
-		} else {
-			this.strict = false;
-		}
+  /**
+   * Reads the stream data and split it into lines.
+   */
+  _transform(data, enc, cb) {
+    if (data.lineNumber === 0) {
+      if (data.header) {
+        if (!this.header) {
+          this.header = data.header;
+        }
+        // if the first row contain a header element. Skip first row will be set to true automatically.
+        this.skipFirstRow = true;
+      }
+    }
 
-		if (opts.severity) {
-			this.severity = opts.severity;
-		} else {
-			this.severity = 'skip_record';
-		}
+    if (!this.header) {
+      throw "Error: No header for transformation available.";
+    }
 
+    if (this.skipFirstRow) {
+      // The first row usually contains the header and could be skipped
+      if (data.lineNumber === 0) {
+        cb();
+        return;
+      }
+    }
 
-		// Normally the first row is the header and would be skipped
-		if (opts.skip_first_row !== undefined) {
-			this.skipFirstRow = opts.skip_first_row;
-		} else {
-			this.skipFirstRow = true;
-		}
+    if (this.strict) {
+      // Check that the length of the header is the same for the tokens
+      if (this.header.length !== data.data.length) {
+        addError(data, {
+          errorCode: "TOKENS_2_OBJECT_STRICT_CHECK",
+          severity: this.severity,
+          message: `Column count missmatch: The header has ${this.header.length} columns and the row has ${data.data.length} columns.`
+        });
+      }
+    }
 
+    // transform the array of tokens into an object
+    let obj = {};
+    for (let i = 0; i < this.header.length; i++) {
+      let name = this.header[i];
+      if (name) {
+        if (i < data.data.length) {
+          obj[name] = data.data[i];
+        }
+      }
+    }
 
-	}
+    // replace the token array with the object data
+    data.data = obj;
 
-	/**
-	 * Reads the stream data and split it into lines.
-	 */
-	_transform(data, enc, cb) {
-			if (data.lineNumber === 0) {
-				if (data.header) {
-					if (!this.header) {
-						this.header = data.header;
-					}
-					// if the first row contain a header element. Skip first row will be set to true automatically.
-					this.skipFirstRow = true;
-				}
-			}
-
-			if (!this.header) {
-				throw 'Error: No header for transformation available.';
-			}
-
-			if (this.skipFirstRow) {
-				// The first row usually contains the header and could be skipped
-				if (data.lineNumber === 0) {
-					cb();
-					return;
-				}
-			}
-
-			if (this.strict) {
-				// Check that the length of the header is the same for the tokens
-				if (this.header.length !== data.data.length) {
-					addError(data, {
-						errorCode: 'TOKENS_2_OBJECT_STRICT_CHECK',
-						severity: this.severity,
-						message: `Column count missmatch: The header has ${this.header.length} columns and the row has ${data.data.length} columns.`
-					});
-				}
-			}
-
-			// transform the array of tokens into an object
-			let obj = {};
-			for (let i = 0; i < this.header.length; i++) {
-				let name = this.header[i];
-				if (name) {
-					if (i < data.data.length) {
-						obj[name] = data.data[i];
-					}
-				}
-			}
-
-			// replace the token array with the object data
-			data.data = obj;
-
-			this.push(data);
-			cb();
-		} // end transform
-
+    this.push(data);
+    cb();
+  } // end transform
 }
 
 /**
@@ -125,17 +115,13 @@ class Tokens2Object extends stream.Transform {
  * @param error The error to be added.
  */
 function addError(data, error) {
-	if (!data.error) {
-		data.error = [];
-	}
-	error.lineNumber = data.lineNumber;
-	data.error.push(error);
+  if (!data.error) {
+    data.error = [];
+  }
+  error.lineNumber = data.lineNumber;
+  data.error.push(error);
 }
 
-function Tokens2ObjectFactory(opts) {
-	return new Tokens2Object(opts);
+export function Tokens2ObjectFactory(opts) {
+  return new Tokens2Object(opts);
 }
-
-export {
-	Tokens2ObjectFactory
-};

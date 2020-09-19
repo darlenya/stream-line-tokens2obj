@@ -1,7 +1,4 @@
-/* jslint node: true, esnext: true */
-'use strict';
-
-import Tokens2ObjectInterceptor from './Tokens2ObjectInterceptor';
+import Tokens2ObjectInterceptor from './Tokens2ObjectInterceptor.mjs';
 import {
   Tokens2ObjectFactory
 }
