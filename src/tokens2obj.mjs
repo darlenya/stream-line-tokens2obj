@@ -16,14 +16,12 @@ export class Tokens2Object extends Transform {
    * }
    *
    */
-  constructor(opts) {
+  constructor(opts = {}) {
     // call the constructor of Transform
     super({
       objectMode: true,
       highWaterMark: 16
     });
-
-    if (!opts) opts = {};
 
     // Set the header to be used to turn the tokens into objects
     // If no header is set, it will register a listener for the header event on the stream
