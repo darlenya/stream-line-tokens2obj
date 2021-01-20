@@ -15,7 +15,6 @@
 
 ### Table of Contents
 
--   [Tokens2ObjectInterceptor](#tokens2objectinterceptor)
 -   [Transform](#transform)
 -   [constructor](#constructor)
     -   [Parameters](#parameters)
@@ -23,13 +22,7 @@
     -   [Parameters](#parameters-1)
 -   [addError](#adderror)
     -   [Parameters](#parameters-2)
-
-## Tokens2ObjectInterceptor
-
-**Extends Interceptor**
-
-This interceptor cares about the handling of the messages.
-It will add the hops and copies the messages
+-   [Tokens2ObjectInterceptor](#tokens2objectinterceptor)
 
 ## Transform
 
@@ -68,3 +61,10 @@ Adds an error to the stream data
 
 -   `data`  The current stream data
 -   `error`  The error to be added.
+
+## Tokens2ObjectInterceptor
+
+**Extends Interceptor**
+
+This interceptor cares about the handling of the messages.
+It will add the hops and copies the messages
