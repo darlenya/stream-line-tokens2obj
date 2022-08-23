@@ -18,7 +18,7 @@
 *   [Transform](#transform)
 *   [constructor](#constructor)
     *   [Parameters](#parameters)
-*   [\_transform](#\_transform)
+*   [\_transform](#_transform)
     *   [Parameters](#parameters-1)
 *   [addError](#adderror)
     *   [Parameters](#parameters-2)
@@ -35,8 +35,8 @@ The following options are supported:
 {
 "header" : \['a', 'b', 'c', undefined, 'e'],
 "strict" : false,
-"severity" : 'skip_record',
-"skip_first_row" : true
+"severity" : 'skip\_record',
+"skip\_first\_row" : true
 }
 
 ### Parameters
@@ -49,9 +49,9 @@ Reads the stream data and split it into lines.
 
 ### Parameters
 
-*   `data`  
-*   `enc`  
-*   `cb`  
+*   `data` &#x20;
+*   `enc` &#x20;
+*   `cb` &#x20;
 
 ## addError
 
