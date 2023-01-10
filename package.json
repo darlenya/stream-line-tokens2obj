@@ -49,7 +49,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kronos-Integration/interceptor-line-tokens2obj.git"
+    "url": "https://github.com/Kronos-Integration/interceptor-line-tokens2obj"
   },
   "bugs": {
     "url": "https://github.com/Kronos-Integration/interceptor-line-tokens2obj/issues"
